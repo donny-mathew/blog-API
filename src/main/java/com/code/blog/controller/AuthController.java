@@ -18,7 +18,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.Collections;
 
 @RestController
@@ -38,12 +37,12 @@ public class AuthController {
     JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto){
+    public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto) {
         Role role = new Role();
-        if(userDetailsService.existsByEmailOrUsername(signUpDto.getEmail(), signUpDto.getUsername()))
+        if (userDetailsService.existsByEmailOrUsername(signUpDto.getEmail(), signUpDto.getUsername()))
             return new ResponseEntity<>("Username or Email already exists!", HttpStatus.BAD_REQUEST);
 
-        if(signUpDto.getRole().equalsIgnoreCase("admin"))
+        if (signUpDto.getRole().equalsIgnoreCase("admin"))
             role = userDetailsService.getRole("ROLE_ADMIN");
         else if (signUpDto.getRole().equalsIgnoreCase("user"))
             role = userDetailsService.getRole("ROLE_USER");
@@ -63,7 +62,7 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@RequestBody SignInDto signInDto){
+    public ResponseEntity<?> authenticateUser(@RequestBody SignInDto signInDto) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 signInDto.getUsernameOrEmail(), signInDto.getPassword()));
 

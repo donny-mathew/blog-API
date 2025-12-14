@@ -5,6 +5,7 @@ import com.code.blog.exception.ResourceNotFoundException;
 import com.code.blog.payload.PostResponse;
 import com.code.blog.repository.PostRepository;
 import com.code.blog.service.PostService;
+import org.springframework.lang.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,7 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
@@ -21,8 +22,7 @@ public class PostServiceImpl implements PostService {
     @Autowired
     PostRepository postRepository;
 
-    @Override
-    public Post createPost(Post post) {
+    public Post createPost(@NonNull Post post) {
         return postRepository.save(post);
     }
 
@@ -44,14 +44,14 @@ public class PostServiceImpl implements PostService {
         return postResponse;
     }
 
-    @Override
-    public Post getPostById(Long id) {
-        return postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found with id: "+id));
+    public Post getPostById(@NonNull Long id) {
+        return postRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + id));
     }
 
-    @Override
-    public Post updatePost(Post post, Long id) {
-        Post postToUpdate = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found with id: "+id));
+    public Post updatePost(@NonNull Post post, @NonNull Long id) {
+        Post postToUpdate = postRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + id));
 
         postToUpdate.setTitle(post.getTitle());
         postToUpdate.setDescription(post.getDescription());
@@ -61,8 +61,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void deletePost(Long id) {
-        Post postToDelete = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found with id: "+id));
+    @SuppressWarnings("null")
+    public void deletePost(@NonNull Long id) {
+        Post postToDelete = postRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + id));
 
         postRepository.delete(postToDelete);
     }

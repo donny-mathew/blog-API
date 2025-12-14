@@ -10,7 +10,7 @@ import com.code.blog.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -25,7 +25,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment addComment(Long postId, Comment comment) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post not found with id: "+postId));
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + postId));
 
         comment.setPost(post);
 
@@ -39,10 +40,12 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment getCommentById(Long postId, Long commentId) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post not found with id: "+postId));
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment not found with id: "+commentId));
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + postId));
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Comment not found with id: " + commentId));
 
-        if(!comment.getPost().getId().equals(post.getId()))
+        if (!comment.getPost().getId().equals(post.getId()))
             throw new BlogAPIException("Comment does not belong to post");
         return comment;
     }

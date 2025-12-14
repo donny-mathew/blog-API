@@ -3,7 +3,6 @@ package com.code.blog.service.impl;
 import com.code.blog.entity.Post;
 import com.code.blog.exception.ResourceNotFoundException;
 import com.code.blog.repository.PostRepository;
-import com.code.blog.service.PostService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,11 +13,9 @@ import static org.mockito.BDDMockito.given;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.*;
 
@@ -34,7 +31,7 @@ class PostServiceTests {
     private Post post;
 
     @BeforeEach
-    public void setup(){
+    public void setup() {
         post = Post.builder()
                 .id(1L)
                 .title("Test Title")
@@ -45,7 +42,8 @@ class PostServiceTests {
 
     @DisplayName("Test case for create post in service layer")
     @Test
-    public void givenPostObject_whenCreatePost_thenReturnPostObject(){
+    @SuppressWarnings("null")
+    public void givenPostObject_whenCreatePost_thenReturnPostObject() {
 
         given(postRepository.save(post)).willReturn(post);
 
@@ -56,7 +54,8 @@ class PostServiceTests {
 
     @DisplayName("Test case for get post by id in service layer")
     @Test
-    public void givenPostId_whenGetPostById_thenReturnPostObject(){
+    @SuppressWarnings("null")
+    public void givenPostId_whenGetPostById_thenReturnPostObject() {
 
         given(postRepository.findById(1L)).willReturn(Optional.of(post));
 
@@ -67,7 +66,8 @@ class PostServiceTests {
 
     @DisplayName("Test case to updatePost in service layer - success")
     @Test
-    public void givenPostObject_whenUpdatePost_thenReturnUpdatedPost(){
+    @SuppressWarnings("null")
+    public void givenPostObject_whenUpdatePost_thenReturnUpdatedPost() {
         Post postToUpdate = Post.builder()
                 .title("Test Title Updated")
                 .description("Test description Updated")
@@ -84,14 +84,15 @@ class PostServiceTests {
 
     @DisplayName("Test case to updatePost in service layer - Exception")
     @Test
-    public void givenPostObject_whenUpdatePost_thenThrowException(){
+    @SuppressWarnings("null")
+    public void givenPostObject_whenUpdatePost_thenThrowException() {
         Post postToUpdate = Post.builder()
                 .title("Test Title Updated")
                 .description("Test description Updated")
                 .content("Test content Updated")
                 .build();
         given(postRepository.findById(post.getId())).willReturn(Optional.empty());
-        //given(postRepository.save(post)).willReturn(post);
+        // given(postRepository.save(post)).willReturn(post);
 
         org.junit.jupiter.api.Assertions.assertThrows(ResourceNotFoundException.class,
                 () -> postService.updatePost(postToUpdate, post.getId()));
@@ -101,7 +102,8 @@ class PostServiceTests {
 
     @DisplayName("Test case to delete post in service layer - success")
     @Test
-    public void givenPostId_whenDeletePost_thenNothing(){
+    @SuppressWarnings("null")
+    public void givenPostId_whenDeletePost_thenNothing() {
         given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
         willDoNothing().given(postRepository).delete(post);
 

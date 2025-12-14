@@ -1,13 +1,11 @@
 package com.code.blog.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-import java.util.HashSet;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import java.util.Set;
 
 @Getter
@@ -17,9 +15,7 @@ import java.util.Set;
 @Builder
 
 @Entity
-@Table(
-        name = "posts", uniqueConstraints = {@UniqueConstraint(columnNames = {"title"})}
-)
+@Table(name = "posts", uniqueConstraints = { @UniqueConstraint(columnNames = { "title" }) })
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
