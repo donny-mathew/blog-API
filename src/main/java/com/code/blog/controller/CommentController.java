@@ -20,17 +20,20 @@ public class CommentController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/posts/{postId}/comments")
+    @SuppressWarnings("null")
     public ResponseEntity<Comment> addComment(@PathVariable(value = "postId") Long postId,
             @Valid @RequestBody Comment comment) {
         return new ResponseEntity<>(commentService.addComment(postId, comment), HttpStatus.CREATED);
     }
 
     @GetMapping("/posts/{postId}/comments")
+    @SuppressWarnings("null")
     public ResponseEntity<List<Comment>> getComments(@PathVariable(value = "postId") Long postId) {
         return new ResponseEntity<>(commentService.getComments(postId), HttpStatus.OK);
     }
 
     @GetMapping("/posts/{postId}/comments/{commentId}")
+    @SuppressWarnings("null")
     public ResponseEntity<Comment> getCommentByPostIdCommentId(@PathVariable(value = "postId") Long postId,
             @PathVariable(value = "commentId") Long commentId) {
         return new ResponseEntity<>(commentService.getCommentById(postId, commentId), HttpStatus.OK);
@@ -38,6 +41,7 @@ public class CommentController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/posts/{postId}/comments/{commentId}")
+    @SuppressWarnings("null")
     public ResponseEntity<Comment> updateComment(@PathVariable(value = "postId") Long postId,
             @PathVariable(value = "commentId") Long commentId,
             @Valid @RequestBody Comment comment) {
@@ -46,8 +50,10 @@ public class CommentController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/posts/{postId}/comments/{commentId}")
+    @SuppressWarnings("null")
     public ResponseEntity<String> deleteComment(@PathVariable(value = "postId") Long postId,
             @PathVariable(value = "commentId") Long commentId) {
+        commentService.deleteComment(postId, commentId);
         return new ResponseEntity<>("Comment Deleted Successfully", HttpStatus.OK);
     }
 

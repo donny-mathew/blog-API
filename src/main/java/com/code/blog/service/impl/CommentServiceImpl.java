@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import java.util.List;
+import org.springframework.lang.NonNull;
 
 @Service
 @Transactional
@@ -24,7 +25,7 @@ public class CommentServiceImpl implements CommentService {
     PostRepository postRepository;
 
     @Override
-    public Comment addComment(Long postId, Comment comment) {
+    public Comment addComment(@NonNull Long postId, @NonNull Comment comment) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + postId));
 
@@ -34,12 +35,12 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getComments(Long postId) {
+    public List<Comment> getComments(@NonNull Long postId) {
         return commentRepository.findByPostId(postId);
     }
 
     @Override
-    public Comment getCommentById(Long postId, Long commentId) {
+    public Comment getCommentById(@NonNull Long postId, @NonNull Long commentId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + postId));
         Comment comment = commentRepository.findById(commentId)
@@ -51,7 +52,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment updateComment(Long postId, Long commentId, Comment comment) {
+    public Comment updateComment(@NonNull Long postId, @NonNull Long commentId, @NonNull Comment comment) {
         Comment commentToUpdate = this.getCommentById(postId, commentId);
 
         commentToUpdate.setName(comment.getName());
@@ -62,7 +63,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void deleteComment(Long postId, Long commentId) {
+    @SuppressWarnings("null")
+    public void deleteComment(@NonNull Long postId, @NonNull Long commentId) {
         Comment commentToDelete = this.getCommentById(postId, commentId);
         commentRepository.delete(commentToDelete);
     }
